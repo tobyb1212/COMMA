@@ -2,6 +2,8 @@
 
 This repository contains the scripts necessary to reproduce our integrated analysis of human single-cell and single-nucleus datasets to create COMMA. 
 
+---
+
 ## 📑 Table of Contents 
 
 1. [🧬 Overview](#️-overview)
@@ -11,38 +13,61 @@ This repository contains the scripts necessary to reproduce our integrated analy
 5. [📚 References](#-references)
 6. [📝 License](#-license)
 7. [💻 Contact](#-contact)
+
 ---
 
 ## 🧬 Overview
 
 In this repository, we include code to generate the sc/snRNA-seq and scATAC-seq components of COMMA. 
+
 Additionally, code is available for our fine-grained subclustering of microvascular VSMC phenotypes and the comparison of microvascular and epicardial VSMCs. We have also performed multiomic integration to predict microvascular VSMC gene regulatory networks and partitioned SNP heritability across vascular cell types. 
+
 Upon publication, the processed COMMA datasets will be available for interactive exploration through CELLxGENE.
+
 ---
 
 ## 👩‍💻 Code Structure
-
 <details>
-<summary><strong> Click to view full code structure. </strong></summary>
+<summary><strong>Click to view full code structure</strong></summary>
+
 **[000_preprocessing](./000_preprocessing/)**
+
 - Code to download and preprocess sc/snRNA-seq and scATAC-seq data. Produces Supplemental Figures 1 & 10.
+
 **[001_scsnRNA-seq](./001_scsnRNA-seq/)**
+
 - Code to benchmark cardiac sc/snRNA-seq integration, re-integrate microvascular cells and annotate cell types. Produces Figure 1, Supplemental Figures 2-5, Supplemental Tables 4-5.
+
 **[002_VSMC_phenotypes](./002_VSMC_phenotypes/)**
+
 - Code to integrate VSMC sc/snRNA-seq data and perform cluster stability analysis, phenotype annotation and comparison with PDGF-BB gene signatures. Produces Figure 2, Supplemental Figure 6, Supplemental Tables 6-7.
+
 **[003_Epicardial_Comparison](./003_Epicardial_Comparison/)**
+
 - Code to integrate COMMA with epicardial coronary artery scRNA-seq data, comparing gene expression and cell type proportions. Produces Figure 3, Supplemental Figure 7, Supplemental Table 9.
+
 **[004_CVD_DGE](./004_CVD_DGE/)**
+
 - Code to perform consensus differential gene expression analysis across cardiovascular disease phenotypes in VSMCs. Produces Figure 4, Supplemental Figures 8-9, Table 1.
+
 **[005_scATAC-seq](./005_scATAC-seq/)**
+
 - Code to integrate cardiac and vascular scATAC-seq data, perform TF prediction, ABC analysis and multiomic integration. Produces Figure 5, Supplemental Figures 11-13, Supplemental Tables 10-11.
+
 **[006_GWAS_Integration](./006_GWAS_Integration/)**
+
 - Code to integrate vascular cell type marker OCRs with known GWAS loci, partitioning CAD heritability and investigating CMD-associated loci. Produces Figure 6, Supplemental Figure 14.
+
 **[CELLxGENE](./CELLxGENE/)**
+
 - Code to format count matrices and fragment files for the CELLxGENE platform.
+
 **[dependencies](./dependencies/)**
+
 - Package versions and dependencies required for different environments.
- 
+
+</details>
+
 ---
 
 ## 🔁 How to Reproduce
@@ -85,6 +110,7 @@ The following studies were used in the generation of COMMA. Data from references
 13. Linna-Kuosmanen, S., et al. (2024). Transcriptomic and spatial dissection of human ex vivo right atrial tissue reveals proinflammatory microvascular changes in ischemic heart disease. *Cell Reports Medicine*, **5**, 101556. https://doi.org/10.1016/j.xcrm.2024.101556
 14. Selewa, A., et al. (2023). Single-cell genomics improves the discovery of risk variants and genes of atrial fibrillation. *Nature Communications*, **14**, 4999. https://doi.org/10.1038/s41467-023-40505-5
 15. Leblanc, F. J. A., et al. (2025). Single-nucleus multi-omics implicates androgen receptor signaling in cardiomyocytes and NR4A1 regulation in fibroblasts during atrial fibrillation. *Nature Cardiovascular Research*, **4**, 433–444. https://doi.org/10.1038/s44161-025-00626-0
+
 ---
 
  ## 📝 License 
