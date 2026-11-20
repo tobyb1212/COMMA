@@ -1,0 +1,637 @@
+#!/bin/Rscript
+
+suppressPackageStartupMessages({
+  require(dplyr)
+  require(Signac)  
+})
+
+format_GWAS_SNP <- function(catalogfile, p_value_threshold){
+  chrom <- chromPos <- rsid <- marker <- P <- trait <- NULL
+  gwas.hg38 <- readr::read_tsv(catalogfile, col_names = FALSE, skip = 1)
+  if (ncol(gwas.hg38) != 38) stop("The wrong number of columns are present in the
+                                file - are you sure this is the correct file?")
+  gwas.hg38 <- gwas.hg38[, c(1, 12, 13, 22, 2, 3, 4, 5, 7, 8, 9, 10, 11, 15, 21, 27, 28, 30, 31, 32, 33, 34, 35)] # Using More Up to Date Catalog for Which There is No txt.gz from UCSC
+  colnames(gwas.hg38) <- c("DateCatalog", "chrom", "chromPos", "SNP_1",
+                           "pubMedID", "author", "pubDate", "journal", "title",
+                           "trait", "initSample", "replSample", "region",
+                           "genes", "riskAllele", "riskAlFreq", "P",
+                           "pValueDesc", "orOrBeta", "ci95", "platform",
+                           "cnv", "mapped_trait")
+  
+    gwas.hg38.formatted <- gwas.hg38 %>%
+      mutate(# Sometimes the chromosome and position is stored where rsid should be located
+          m = str_match(SNP_1, "^chr?([0-9XYM]+):([0-9]+)$"),
+          marker = if_else(!is.na(chrom) & !is.na(chromPos),
+              paste0(gsub("^chr", "", chrom), ":", chromPos),
+              if_else(!is.na(m[,2]), paste0(m[,2], ":", m[,3]), NA_character_)),
+            # Sometimes rsid isn't stored properly
+          rsid = case_when(is.na(SNP_1) | str_detect(SNP_1, ":") ~ NA_character_,
+              str_detect(SNP_1, "^rs")              ~ SNP_1,
+              TRUE                                  ~ paste0("rs", SNP_1)),
+    P = as.numeric(P)
+  ) %>%
+  select(rsid, marker, P, trait, pubMedID) %>%
+  arrange(P) %>%
+  filter(P < p_value_threshold)
+  return(gwas.hg38.formatted) # Subsetting By P Value
+}
+
+filter_GWAS_SNP_study <- function(formatted.gwas, filter.df, filter){
+  names(filter.df) <- c("PUBMEDID", "DISEASE.TRAIT")
+  filter.df$PUBMEDID       <- as.character(filter.df$PUBMEDID)
+  filter.df$DISEASE.TRAIT  <- as.character(filter.df$DISEASE.TRAIT)
+
+  # Only accept appropriate studies
+  matches <- merge(formatted.gwas,filter.df,by.x = c("pubMedID", "trait"),by.y = c("PUBMEDID", "DISEASE.TRAIT"),all.x = FALSE,all.y = FALSE)
+
+  # filter format as "termA|termB" 
+  filter.criteria <- gsub (" \\| ", "\\|", filter)
+  filter.criteria <- trimws(filter.criteria)
+  matches <- matches[grepl(filter.criteria, matches$trait, ignore.case = TRUE), ]
+  matches <- matches[!is.na(matches$marker), ]
+  return(matches)
+}  # Filtering Based on trait Name
+
+filter_GWAS_SNP <- function(formatted.gwas, filter){
+  # filter format as "termA|termB" 
+  filter.criteria <- gsub (" \\| ", "\\|", filter)
+  filter.criteria <- trimws(filter.criteria)
+  formatted.gwas <- formatted.gwas[grepl(filter.criteria, formatted.gwas$trait, ignore.case = TRUE), ]
+  formatted.gwas <- formatted.gwas[!is.na(formatted.gwas$marker), ]
+  return(formatted.gwas)
+}  
+
+prune_GWAS_SNP <- function(plink = NULL, snps, genotypeData) {
+  
+  # Check that plink command works
+  tryCatch({
+    null <- system(command = paste(plink, "--help"), intern = TRUE)
+  }, error = function(cond) {
+    message(paste("Software does not seem to exist:", plink))
+    message("Here's the original error message:")
+    message(cond)
+  } )
+  
+  if (is.data.frame(snps)) {
+    snps$P <- signif(snps$P, 3)
+    snps$P <- sprintf("%.2e", as.numeric(snps$P))
+    tmp_name <- tempfile(pattern = "tmp", tmpdir = tempdir(), fileext = ".txt")
+    readr::write_tsv(snps[, c("SNP", "P")], file = tmp_name, col_names = TRUE, na = "") # write_tsv is faster than the base R write.table function
+  }else if(is.character(snps)){
+    warning("No P value provided, disabling filtering......\n")
+    tmp_name <- tempfile(pattern = "tmp", tmpdir = tempdir(), fileext = ".txt")
+    readr::write_tsv(data.frame("SNP" = snps, "P" = 5e-8), file = tmp_name, col_names = T)
+  }else{
+    stop("Input SNP must be a dataframe or a string!")
+  } # Checking to see if Format is in the Correct Way
+ 
+  gtdf <- genotypeData
+  out_file <- tempfile(pattern = "clumpedSNPs", tmpdir = tempdir())
+  code.clumping <- sprintf(
+    "%s --bfile %s --clump-p1 5e-8 --clump-kb 1000 --clump-r2 0.1 --clump-p2 1 --clump %s --out %s --allow-extra-chr", # Identifying Unique Independent SNPs by Clumping and Keeping Any with LD < 0.1
+    plink, gtdf, tmp_name, out_file) # Setting Parameters for Plink
+  system(code.clumping)
+  snps.clumped <- data.table::fread(paste0(out_file,".clumped"),
+                                    header = T, stringsAsFactors = F)
+  unlink(tmp_name)
+  unlink(list.files(pattern = paste0(out_file, "*")))
+  return(snps.clumped)
+}
+
+getld_GWAS_SNP <- function(plink, genotypeData, snps, r2 = 0.8, return_clump = FALSE) {
+  
+  CHR_A <- BP_A <- CHR_B <- BP_B <- R2 <- SNP_B <- comb <- indexSNP <- ldPos <- NULL
+  
+  if (is.data.frame(snps)) {
+    tmp_name <- tempfile(pattern = "tmp", tmpdir = tempdir(), fileext = ".txt")
+    readr::write_tsv(snps, file = tmp_name, col_names = TRUE) # write_tsv is faster than the base R write.table function
+  }else if(is.character(snps)){
+      if(any(duplicated(snps))){
+        warning("Removing duplicated rsids......\n")
+        snps <- unique(snps)
+      }
+    tmp_name <- tempfile(pattern = "tmp", tmpdir = tempdir(), fileext = ".txt")
+    readr::write_tsv(data.frame("SNP" = snps), file = tmp_name, col_names = T)
+  }else{
+    stop("Input SNP must be a dataframe or a string!")
+  }
+  
+  out_prefix <- paste0("ldpartners_", gsub("\\.", "", r2))
+  out <- tempfile(pattern = out_prefix, tmpdir = tempdir() )
+  
+  gtdf <- genotypeData
+  
+  #file.path(genotypeData, 
+  #                "ALL.chr_merged.phase3_shapeit2_mvncall_integrated_v5.20130502.genotypes") 
+  
+  ## call plink to get the ld of input snps
+  code.ld <- sprintf(
+    "%s --bfile %s --r2 --ld-snp-list %s --ld-window-kb 1000 --ld-window 99999 --ld-window-r2 %s --out %s --allow-extra-chr",
+    plink, gtdf, tmp_name, r2, out)
+  system(code.ld)
+  ld.partners <- data.table::fread(paste0(out, ".ld"), header = T,
+                                   stringsAsFactors = FALSE)
+  ld.partners.r2 <- ld.partners
+  ld.partners.r2[, c("indexPos", "ldPos") := {
+    list(paste(CHR_A, BP_A, sep = ":"),
+         paste(CHR_B, BP_B, sep = ":"))
+    }
+  ]
+  ld.partners.r2 <- ld.partners.r2[, c("SNP_A", "indexPos", "SNP_B", "ldPos", "R2")]
+  oldnames <- colnames(ld.partners.r2)
+  newnames <- c("indexSNP", "indexPos", "ldSNP", "ldPos", "r2")
+  data.table::setnames(ld.partners.r2, old = oldnames, new = newnames)
+  
+  if(return_clump){ 
+    warning("Make sure the SNP list is pruned when setting return_clump to TRUE......\n")
+    return(ld.partners.r2)
+  }
+  ld.snps <- ld.partners.r2 %>% 
+    tidyr::separate(ldSNP, c("chr", "pos"), ":") %>% 
+    select(chr, pos) %>% 
+    distinct()
+  unlink(c(tmp_name, list.files(pattern = paste0(out, "*"))))
+  return(ld.snps)
+}
+
+format_goshifter_SNPs <- function(snpfinallist){
+  ldpos <- snpfinallist[[2]]$"ldPos" %>% 
+    strsplit(split = ":") %>% 
+    unlist %>% 
+    matrix(nrow=dim(snpfinallist[[2]])[1],ncol=2,byrow = T)
+  snp_map <- data.frame("SNP"=snpfinallist[[2]]$"ldSNP", "Chrom"=paste("chr",ldpos[,1],sep = ""), "BP"=ldpos[,2])
+  return(snp_map)
+}
+
+liftover_GWAS_SNP <- function(SNPs, biomaRt_matrix = NULL, local = FALSE, allele=FALSE){
+  if(local){
+    if(allele){
+      stop("local mode does not return ref / alt alleles!")
+    }
+    return(liftover_GWAS_SNP_local(SNPs))
+  }
+  if(is.null(biomaRt_matrix)){
+    require(biomaRt)
+    ensembl <- useEnsembl("snp",dataset = "hsapiens_snp")
+    if(is.data.frame(SNPs)){
+      stopifnot("ldSNP" %in% colnames(SNPs))
+      rsids <- SNPs$ldSNP
+    }else if(is.character(SNPs)){
+      rsids <- SNPs
+    }else{
+      stop("Input SNP must be a dataframe or a string vector!")
+    }
+    if(allele){
+      attributes =c("refsnp_id",
+                    "chr_name",
+                    "chrom_start",
+                    "chrom_end",
+                    "allele",
+                    "allele_1",
+                    "minor_allele")
+    }else{
+      attributes = c("refsnp_id",
+                     "chr_name",
+                     "chrom_start",
+                     "chrom_end")
+    }
+    #get genomic position
+    SNPs <- getBM(attributes=attributes,
+                  filters ="snp_filter", 
+                  values =rsids, 
+                  mart = ensembl, uniqueRows=TRUE)
+  }else{
+    SNPs <- filter(biomaRt_matrix, refsnp_id %in% SNPs)
+  }
+  SNPs <- SNPs[SNPs$chr_name %in% 1:22,]
+  SNPs$chr_name <- paste("chr", SNPs$chr_name, sep = "")
+  
+  ## This is to make sure the start position always <= end position of any given snps
+  select <- SNPs$chrom_start>=SNPs$chrom_end
+  SNPs[select,c('chrom_start','chrom_end')] <- SNPs[select,c('chrom_end','chrom_start')]
+  
+  return(SNPs)
+}
+
+liftover_GWAS_SNP_local <- function(SNPs){
+  require(SNPlocs.Hsapiens.dbSNP151.GRCh38)
+  require(dplyr)
+  
+  if(is.data.frame(SNPs)){
+    stopifnot("ldSNP" %in% colnames(SNPs))
+    rsids <- SNPs$ldSNP
+  }else if(is.character(SNPs)){
+    rsids <- SNPs
+  }else{
+    stop("Input SNP must be a dataframe or a string vector!")
+  }
+  
+  keep <- gsub(pattern = "(rs)+[0-9]+", replacement = "\\1", rsids) == "rs"
+  n_remove = sum(!keep)
+  warning(paste0("Removing ", n_remove, " SNPs that do not have rsid...\n" ))
+  rsids <- rsids[keep]
+
+  
+  SNPs <- snpsById(SNPlocs.Hsapiens.dbSNP151.GRCh38,rsids, ifnotfound="drop") %>% 
+    as.data.frame() %>% 
+    dplyr::filter(seqnames %in% 1:22) %>% 
+    dplyr::mutate(chr_name = paste("chr", seqnames, sep = "")) %>% 
+    dplyr::mutate(chrom_start = pos,chrom_end = pos, refsnp_id = RefSNP_id) %>% 
+    dplyr::select(refsnp_id, chr_name, chrom_start, chrom_end)
+  return(SNPs)
+}
+
+## getting rsids out of dbSNP.vcf files using hg38 positions
+pos2rsid <- function(bcftools = "bcftools", ## require bcftools to be installed
+                     SNP_pos, ## two column CHROM POS data.frame
+                     vcf ## VCF file downloaded from dbSNP hg38 release, need to be bgzipped 
+                     ) {
+  
+  # Check that bcftools command works
+  tryCatch({
+    null <- system(command = paste(bcftools, "--help"), intern = TRUE)
+  }, error = function(cond) {
+    message(paste("Software does not seem to exist:", bcftools))
+    message("Here's the original error message:")
+    message(cond)
+  } )
+  
+  stopifnot(is.data.frame(SNP_pos))
+  stopifnot(ncol(SNP_pos)==2)
+
+  tmp_name <- tempfile(pattern = "SNP_pos", tmpdir = tempdir(), fileext = ".txt")
+  readr::write_tsv(SNP_pos, file = tmp_name, col_names = FALSE) # write_tsv is faster than the base R write.table function
+  
+  # Run bcftools
+  out_file <- tempfile(pattern = "SNP_return", tmpdir = tempdir())
+  format = "'%CHROM %POS %END %ID %REF %ALT\n'"
+  code.query <- sprintf(
+    "%s query -R %s -f %s %s > %s",
+    bcftools, tmp_name, format, vcf, out_file)
+  system(code.query)
+  
+  snps.annotated <- data.table::fread(out_file, header = F, stringsAsFactors = F)
+  colnames(snps.annotated) <- c("chr", "pos", "end", "rsid", "ref", "alt")
+  snps.annotated <- snps.annotated[!is.na(snps.annotated$rsid) & snps.annotated$rsid != "." & snps.annotated$rsid != "",]
+  unlink(tmp_name)
+  unlink(out_file)
+  return(snps.annotated)
+}
+
+## getting posid (hg38) out of dbSNP.vcf files using rsids
+rsid2pos<- function(bcftools = "bcftools", ## require bcftools to be installed
+                     SNP_rsid, ## a character list of rsids
+                     vcf ## VCF file downloaded from dbSNP hg38 release, need to be bgzipped 
+) {
+  
+  # Check that bcftools command works
+  tryCatch({
+    null <- system(command = paste(bcftools, "--help"), intern = TRUE)
+  }, error = function(cond) {
+    message(paste("Software does not seem to exist:", bcftools))
+    message("Here's the original error message:")
+    message(cond)
+  } )
+  
+  stopifnot(is.character(SNP_rsid))
+  ###
+  
+  tmp_name <- tempfile(pattern = "SNP_rsid", tmpdir = tempdir(), fileext = ".txt")
+  readr::write_tsv(as.data.frame(SNP_rsid), file = tmp_name, col_names = FALSE) # write_tsv is faster than the base R write.table function
+  
+  # Run bcftools
+  out_file <- tempfile(pattern = "SNP_return", tmpdir = tempdir())
+  filter_format = paste0("'ID=@", tmp_name, "'")
+  output_format = "'%CHROM %POS %END %ID %REF %ALT %CHROM:%POS\n'"
+  code.query <- sprintf(
+    "%s query -i %s -f %s %s > %s",
+    bcftools, filter_format, output_format, vcf, out_file)
+  system(code.query)
+  
+  
+  snps.annotated <- data.table::fread(out_file, header = F, stringsAsFactors = F)
+  colnames(snps.annotated) <- c("chr", "pos", "end", "rsid", "ref", "alt", "posid")
+  unlink(tmp_name)
+  unlink(out_file)
+  return(snps.annotated)
+}
+
+
+
+snp2gr <- function(SNPs){
+  suppressPackageStartupMessages(
+    require(GenomicRanges)
+  )
+  stopifnot(is.data.frame(SNPs))
+  #stopifnot(ncol(SNPs) == 6)
+  #SNPs <- SNPs[, c(4,1,2,3)]
+  colnames(SNPs) <- c("chr", "start", "end", "rsid", "ref", "alt")
+  SNPs <- makeGRangesFromDataFrame(SNPs,
+                                  keep.extra.columns=TRUE,
+                                  ignore.strand=FALSE,
+                                  seqinfo=NULL,
+                                  seqnames.field=c("seqnames", "seqname",
+                                                   "chromosome", "chrom",
+                                                   "chr", "chromosome_name",
+                                                   "seqid"),
+                                  start.field="start",
+                                  end.field=c("end", "stop"),
+                                  strand.field="strand",
+                                  starts.in.df.are.0based=FALSE)
+  return(SNPs)
+}
+
+# read_matched_SNPs <- function(){ ### NOT FINISHED!
+#   
+#   ### matched SNP set should be obtained before getting ld snps
+#   query_similar_SNPs <- function(SNPsnap_collection, nperm = 1000, ld.snps) {
+#     
+#     collection <- ldSNP <- ldPos <- snp_maf <- gene_count <- friends_ld08 <- NULL
+#     HGNC_nearest_gene_snpsnap <- dist_nearest_gene_snpsnap <- gene_count <- NULL
+#     rowid <- J <- snpID <- end <- chr <- start <- rsID <- NULL
+#     
+#     cat("\n\nGenerating matched SNPs for permutation testing.  SNPs will be 
+#       matched for MAF, number of genes in SNP locus, and LD 'buddies' at 
+#       r2 0.8.\n")
+#     cat("Number of permutations =", nperm)
+#     cat("\nLoading SNP database - this may take a while.  If this takes longer than 2-3 
+#       minutes, you may not have sufficient RAM to proceed.\n")
+#     load(snpdatabase)
+#     cat("\nDatabase loaded.\n")
+#     
+#     ld.partners.r2.dt <- data.table::data.table(ld.snps[[2]])
+#     ld.partners.r2.dt <- lapply(collection, function(x) {
+#       tmp <- merge(ld.partners.r2.dt, x, by.x = "ldPos", 
+#                    by.y = "snpID", keep.x = T) %>%
+#         dplyr::select(ldSNP, ldPos, snp_maf, gene_count, friends_ld08, 
+#                       nearest_gene = HGNC_nearest_gene_snpsnap, 
+#                       dist_nearest_gene = dist_nearest_gene_snpsnap)
+#     })
+#     
+#     cat("\nCreating sets of matched SNPs for each permutation - this step may be 
+#       time-consuming.\n")
+#     
+#     matched <- vector("list", 49)
+#     
+#     ################## TO DO: rewrite this as a foreach loop
+#     for (i in seq_along(ld.partners.r2.dt)) {
+#       x <- ld.partners.r2.dt[[i]]
+#       y <- list()
+#       for (j in seq_len(nrow(x))) {
+#         gc <- as.numeric(x[j, gene_count])
+#         ld <- as.numeric(x[j, friends_ld08])
+#         s1 <- collection[[i]][as.numeric(gene_count) < 1.3*gc & 
+#                                 as.numeric(gene_count) > 0.7*gc]
+#         s2 <- s1[as.numeric(friends_ld08) < 1.3*ld & 
+#                    as.numeric(friends_ld08) > 0.7*ld]
+#         y[[j]] <- s2[sample(nrow(s2), nperm, replace = T), ]
+#       }
+#       matched[[i]] <- y
+#       names(matched)[i] <- names(collection)[i]
+#     }
+#     
+#     matched2 <- unlist(matched, recursive = F)
+#     # This bit where we take the ith row from each dataframe in matched2 and rbind
+#     # potentially takes forever!  I have finally come up with a data.table solution
+#     # that is about 1000x faster!!  
+#     
+#     # convert to data.table
+#     invisible(lapply(matched2, data.table::setattr, name = "class", 
+#                      value = c("data.table", "data.frame")))
+#     # make one big table
+#     bigdata <- data.table::rbindlist(matched2)
+#     # generate an index - the number of dataframes will be the number of 
+#     # permutations
+#     index <- as.character(seq_len(nperm))
+#     bigdata[, `:=`(rowid, index)]
+#     # set a key based on the row index
+#     data.table::setkey(bigdata, rowid)
+#     # split on this
+#     matched.list <- lapply(index, function(i, j, x) x[i = J(i)], x = bigdata)
+#     # Drop the `row id` column
+#     invisible(lapply(matched.list, function(x) data.table::set(x, j = "rowid", value = NULL)))
+#     # Convert back to data.frame
+#     invisible(lapply(matched.list, data.table::setattr, name = 'class', 
+#                      value = c('data.frame')))
+#     
+#     # Convert the matched SNPs into a GRanges object list
+#     matched.list <- 
+#       lapply(matched.list, function(x) {
+#         a <- x %>% dplyr::mutate(chr = paste0("chr", gsub(":.*$", "", snpID)), 
+#                                  end = as.numeric(gsub("^.*:", "", snpID)), 
+#                                  start = (end - 1)) %>%
+#           dplyr::select(chr, start, end, snp = rsID, 
+#                         nearest_gene = HGNC_nearest_gene_snpsnap, 
+#                         dist_nearest_gene = dist_nearest_gene_snpsnap)
+#         a <- a[stats::complete.cases(x), ]
+#         return(a)
+#       })
+#     
+#     matched.list.GR <- lapply(matched.list, function(x) {
+#       a <- as.data.frame(x)
+#       GenomicRanges::makeGRangesFromDataFrame(a,  keep.extra.columns = TRUE, 
+#                                               seqnames.field = "chr", start.field = "start",
+#                                               end.field = "end")
+#     })
+#     save(matched.list.GR, file = paste0("matched_SNPs_GR.rda"))
+#     return(matched.list.GR)
+#   }}
+
+GWASPeakZtest <- function(SNPSet, ### SNP_set: a GRange object of GWAS associated SNPs 
+                          peakSet, ### peak_set: vector of peak ids you wish to test for motif enrichment
+                          bgPeaks, ### bg_peaks: matrix of background peak selection iterations by chromVAR
+                          n_bgs = ncol(bgPeaks), ### optional: number of background peaksets, by default all bgsets in bgPeak matrix
+                          return_bg = F, ### optional: if set TRUE, a list containing background overlaps will be returned
+                          weights = NULL ### optional: if provided, number of overlaps will be multiplied by this vector. 
+) {
+  # if no weights provided, enrichment analysis will be performed using # of overlaps
+  if(is.null(weights))
+    weights <- rep(1, length(peakSet))
+  stopifnot(length(weights) == length(peakSet))
+  
+  # peaks should be in a character vector
+  stopifnot(is.character(peakSet))
+  
+  # for duplicated peaks, only keeping the peak with highest weight
+  if(sum(duplicated(peakSet))){
+    warning("Summarising weights for duplicated peaks from input peak set ..\n")
+    df <- data.frame(peaks = peakSet,
+                     weights = weights) %>% 
+      group_by(peaks) %>% 
+      summarise(score = sum(weights))
+    peakSet <- df$peaks
+    weights <- df$score
+  }
+  if(ncol(bgPeaks) < n_bgs)
+    stop("Backgroud peak matrix must have sufficient number of peakset..\n")
+  
+  if(!all(peakSet %in% rownames(bgPeaks)))
+    stop("One or more of the provided peak indices are out of the background peak set range ..\n")
+  
+  peaks_setted <- sub("chr", "", peakSet)
+  peakGR <- StringToGRanges(regions = peaks_setted, sep = c("-", "-"))
+  o <- findOverlaps(SNPSet, peakGR)
+  nLOverlaps <- sum(weights[subjectHits(o)] %>% sum)
+  
+  peaks.ix <- rownames(bgPeaks) %in% peakSet
+  rownames(bgPeaks) <- sub("chr", "", rownames(bgPeaks))
+  # a for loop to test # of bg interations 
+  nBGOverlaps <- c() 
+  for( i in 1:n_bgs){
+    bgPeaks.ix <- bgPeaks[peaks.ix,i]
+    tmp <- rownames(bgPeaks)[bgPeaks.ix]
+    tmp <- tmp[!is.na(tmp)]
+    bgPeaks.set <- StringToGRanges(tmp, sep = c("-", "-"))
+    o <- findOverlaps(SNPSet, bgPeaks.set)
+    nOverlaps <- weights[subjectHits(o)] %>% sum
+    nBGOverlaps <- c(nBGOverlaps, nOverlaps)
+  }
+  OR <- nLOverlaps/mean(nBGOverlaps)
+  z_score <- (nLOverlaps - mean(nBGOverlaps)) / sd(nBGOverlaps)
+  pval.perm = sum(nBGOverlaps > nLOverlaps)/length(nBGOverlaps)
+  
+  d <- data.frame(
+    # nCADSNPs = length(o),
+    Z = z_score,
+    pval.z = pnorm(-abs(z_score)), ## one-tailed test ,
+    signed.log10p = -log10( pnorm(-abs(z_score))) * sign(z_score), 
+    pval.perm = pval.perm,
+    signed.log10pperm = -log10(pval.perm) * sign(pval.perm),
+    Obs.overlaps = nLOverlaps,
+    OR = OR,
+    sizes = length(peakSet)
+  )
+  if(!return_bg){return(d)}
+  else{
+    return(list(d,nBGOverlaps))
+  }
+}
+
+GWASOverlaps <- function(SNPList, ### SNP_set: a GRange object of GWAS associated SNPs 
+                          peakSet,### peak_set: vector of peak ids you wish to test for motif enrichment
+                          outdir,
+                          setName="") ### Out Directory 
+{
+  stopifnot(is.character(peakSet))
+  peaks_setted <- sub("chr", "", peakSet)
+  peakGR <- StringToGRanges(regions = peaks_setted, sep = c("-", "-"))
+  o <- findOverlaps(query = SNPList, subject = peakGR)
+  hits_query <- queryHits(o)
+  hits_subject <- subjectHits(o)
+  snp_gr <- SNPList[hits_query]
+  dataframe <- data.frame(
+    celltype = setName,
+    SNP_pos = paste0(as.character(seqnames(snp_gr)), ":", start(snp_gr)),
+    rsid = mcols(snp_gr)$rsid,
+    region = paste0(as.character(seqnames(peakGR[hits_subject])), "-", start(peakGR[hits_subject]), "-", end(peakGR[hits_subject])),
+    stringsAsFactors = FALSE)
+  return(dataframe)
+}
+
+MarkPeakZtest <- function(peakSet, ### peak_set: vector of peak ids you wish to test for enrichment
+                          bgPeaks, ### bg_peaks: matrix of background peak selection iterations by chromVAR
+                          MarkSet, ### Mark_set: a GRange object of marker
+                          n_bgs = ncol(bgPeaks), ### optional: number of background peaksets, by default all bgsets in bgPeak matrix
+                          return_bg = F, ### optional: if set TRUE, a list containing background overlaps will be returned
+                          weights = NULL ### optional: if provided, number of overlaps will be multiplied by this vector. 
+) {
+  # if no weights provided, enrichment analysis will be performed using # of overlaps
+  if(is.null(weights))
+    weights <- rep(1, length(peakSet))
+  stopifnot(length(weights) == length(peakSet))
+  
+  # for duplicated peaks, only keeping the peak with highest weight
+  if(sum(duplicated(peakSet))){
+    warning("Removing duplicated peaks from input peak set ..\n")
+    df <- data.frame(peaks = peakSet,
+                     weights = weights) %>% 
+      arrange(peakSet, desc(weights))
+    peakSet <- df$peaks[!duplicated(df$peaks)]
+    warning("Only keeping the highest weight for each peak ..\n")
+    weights <- df$weights[!duplicated(df$peaks)]
+  }
+  if(ncol(bgPeaks) < n_bgs)
+    stop("Backgroud peak matrix must have sufficient number of peakset..\n")
+  
+  if(!all(peakSet %in% rownames(bgPeaks)))
+    stop("One or more of the provided peak indices are out of the background peak set range ..\n")
+  
+  peakGR <- StringToGRanges(peakSet)
+  o <- findOverlaps(SNPSet, peakGR)
+  nLOverlaps <- sum(weights[subjectHits(o)] %>% sum)
+
+  peaks.ix <- rownames(bgPeaks) %in% peakSet
+  # a for loop to test # of bg interations 
+  cat("Start", n_bgs, "permutation tests ..\n")
+  nBGOverlaps <- c() 
+  for( i in 1:n_bgs){
+    bgPeaks.ix <- bgPeaks[peaks.ix,i]
+    bgPeaks.set <- rownames(bgPeaks)[bgPeaks.ix] %>% StringToGRanges
+    o <- findOverlaps(MarkSet, bgPeaks.set)
+    nOverlaps <- weights[subjectHits(o)] %>% sum
+    nBGOverlaps <- c(nBGOverlaps, nOverlaps)
+  } 
+  OR <- nLOverlaps/mean(nBGOverlaps)
+  cat("Calculate Z-score based on background distribution ..\n")
+  z_score <- (nLOverlaps - mean(nBGOverlaps)) / sd(nBGOverlaps)
+  pval.perm = sum(nBGOverlaps > nLOverlaps)/length(nBGOverlaps)
+  
+  d <- data.frame(
+    # nCADSNPs = length(o),
+    Z = z_score,
+    pval.z = pnorm(-abs(z_score)), ## one-tailed test ,
+    signed.log10p = -log10( pnorm(-abs(z_score))) * sign(z_score), 
+    pval.perm = pval.perm,
+    signed.log10pperm = -log10(pval.perm) * sign(pval.perm),
+    Obs.overlaps = nLOverlaps,
+    OR = OR
+  )
+  
+  if(!return_bg){return(d)}
+  else{
+    return(list(d,nBGOverlaps))
+  }
+}
+
+plot_enrichment <- function(ztest.list, ## list object returned by Peak Z test
+                            perm.p = F, ## whether to use permutation-based p values
+                            binwidth = 4,
+                            title=NULL ## plot title
+                            ){
+  require(ggplot2)
+  if(!is.list(ztest.list)) {
+    stop("Input must be a list!")
+  }
+  stopifnot(length(ztest.list) >1)
+  stopifnot(length(ztest.list[[2]])>1)
+  if(length(ztest.list[[2]]) < 100){
+    warning("# of bg peaksets might be too small...\n Consider n_bgs in Z test?")  
+  }
+  
+  if(!perm.p){
+    pval <- round(ztest.list[[1]]$pval.z,4)
+  }else{
+    pval <- round(ztest.list[[1]]$pval.perm,4)
+  }
+  if(is.na(pval)){
+    pval.label = "NA"
+  }else{
+  if(pval == 0){
+    pval.label = "p-value < 0.0001"
+  }else{
+    pval.label = paste("p-value: ", pval, sep = "")
+  }}
+
+  nBGOverlaps <- ztest.list[[2]]
+  p <- ggplot(data.frame(nOverlaps=nBGOverlaps), aes(x=nOverlaps)) +
+    geom_histogram(aes(y=..density..), binwidth = binwidth) +
+    geom_density()+
+    geom_vline(xintercept = ztest.list[[1]]$Obs.overlaps, color = "red", linetype="dashed", linewidth=2)+
+    ggtitle(label=title,
+            subtitle= pval.label) + 
+    theme_bw(base_size = 15,base_rect_size = 2, base_line_size = 0.2) + 
+    theme(plot.title = element_text(color = "black", size = 12, face = "bold", hjust = 0),
+          plot.subtitle = element_text(color = "red", size = 10, face = "bold", hjust = 1))
+  return(p)
+}
+

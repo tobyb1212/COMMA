@@ -1,0 +1,37 @@
+# Name                    Version                   Build  Channel
+_openmp_mutex             4.5                  7_kmp_llvm    conda-forge
+bzip2                     1.0.8                hda65f42_9    conda-forge
+ca-certificates           2026.2.25            hbd8a1cb_0    conda-forge
+icu                       78.2                 h33c6efd_0    conda-forge
+ld_impl_linux-64          2.45.1          default_hbd61a6d_101    conda-forge
+libexpat                  2.7.4                hecca717_0    conda-forge
+libffi                    3.5.2                h3435931_0    conda-forge
+libgcc                    15.2.0              he0feb66_18    conda-forge
+libhwloc                  2.12.2          default_hafda6a7_1000    conda-forge
+libiconv                  1.18                 h3b78370_2    conda-forge
+liblzma                   5.8.2                hb03c661_0    conda-forge
+libmpdec                  4.0.0                hb03c661_1    conda-forge
+libsqlite                 3.52.0               hf4e2dac_0    conda-forge
+libstdcxx                 15.2.0              h934c35e_18    conda-forge
+libuuid                   2.41.3               h5347b49_0    conda-forge
+libxml2                   2.15.2               he237659_0    conda-forge
+libxml2-16                2.15.2               hca6bf5a_0    conda-forge
+libzlib                   1.3.1                hb9d3cd8_2    conda-forge
+llvm-openmp               22.1.0               h4922eb0_0    conda-forge
+mkl                       2025.3.0           h0e700b2_463    conda-forge
+mkl-include               2025.3.0           hf2ce2f3_463    conda-forge
+mkl-service               2.6.1           py314ha1a38ac_0    conda-forge
+ncurses                   6.5                  h2d0b736_3    conda-forge
+openssl                   3.6.1                h35e630c_1    conda-forge
+pip                       26.0.1             pyh145f28c_0    conda-forge
+python                    3.14.3          h32b2ec7_101_cp314    conda-forge
+python_abi                3.14                    8_cp314    conda-forge
+readline                  8.3                  h853b02a_0    conda-forge
+tbb                       2022.3.0             hb700be7_2    conda-forge
+tk                        8.6.13          noxft_h366c992_103    conda-forge
+tzdata                    2025c                hc9c84f9_1    conda-forge
+zstd                      1.5.7                hb78ec9c_6    conda-forge
+
+===== PIP PACKAGES (pip freeze) =====
+mkl-service==2.6.1
+

@@ -1,0 +1,528 @@
+# Name                    Version                   Build  Channel
+_libgcc_mutex             0.1                        main    defaults
+_openmp_mutex             4.5                  4_kmp_llvm    conda-forge
+absl-py                   2.3.1                    pypi_0    pypi
+aiofiles                  24.1.0                   pypi_0    pypi
+aiohappyeyeballs          2.6.1                    pypi_0    pypi
+aiohttp                   3.12.15                  pypi_0    pypi
+aiosignal                 1.4.0                    pypi_0    pypi
+alsa-lib                  1.2.14               h5eee18b_0    defaults
+anndata                   0.11.4                   pypi_0    pypi
+aom                       3.9.1                hac33072_0    conda-forge
+array-api-compat          1.12.0                   pypi_0    pypi
+async-timeout             5.0.1                    pypi_0    pypi
+attr                      2.5.2                h39aace5_0    conda-forge
+attrs                     25.3.0                   pypi_0    pypi
+beautifulsoup4            4.13.5                   pypi_0    pypi
+bottleneck                1.6.0           py310hf779ad0_0    conda-forge
+bzip2                     1.0.8                h5eee18b_6    defaults
+ca-certificates           2025.9.9             h06a4308_0    defaults
+cairo                     1.18.4               h44eff21_0    defaults
+certifi                   2025.8.3                 pypi_0    pypi
+charset-normalizer        3.4.3                    pypi_0    pypi
+chex                      0.1.90                   pypi_0    pypi
+contourpy                 1.3.2                    pypi_0    pypi
+cpuonly                   2.0                           0    pytorch
+cuda-cudart               11.8.89                       0    nvidia
+cuda-cupti                11.8.87                       0    nvidia
+cuda-libraries            11.8.0                        0    nvidia
+cuda-nvrtc                11.8.89                       0    nvidia
+cuda-nvtx                 11.8.86                       0    nvidia
+cuda-runtime              11.8.0                        0    nvidia
+cuda-version              13.0                 hc7b4dd1_3    conda-forge
+cycler                    0.12.1                   pypi_0    pypi
+dav1d                     1.2.1                h5eee18b_0    defaults
+dbus                      1.16.2               h5bd4931_0    defaults
+docrep                    0.3.2                    pypi_0    pypi
+etils                     1.13.0                   pypi_0    pypi
+exceptiongroup            1.3.0                    pypi_0    pypi
+expat                     2.7.1                h6a678d5_0    defaults
+ffmpeg                    7.1.1           gpl_ha0aeed6_910    conda-forge
+filelock                  3.19.1             pyhd8ed1ab_0    conda-forge
+flax                      0.10.7                   pypi_0    pypi
+font-ttf-dejavu-sans-mono 2.37                 hd3eb1b0_0    defaults
+font-ttf-inconsolata      3.000                h77eed37_0    conda-forge
+font-ttf-source-code-pro  2.038                h77eed37_0    conda-forge
+font-ttf-ubuntu           0.83                 h8b1ccd4_0    defaults
+fontconfig                2.15.0               h7e30c49_1    conda-forge
+fonts-anaconda            1                    h8fa9717_0    defaults
+fonts-conda-ecosystem     1                    hd3eb1b0_0    defaults
+fonttools                 4.59.2                   pypi_0    pypi
+freetype                  2.14.0               ha770c72_1    conda-forge
+fribidi                   1.0.16               hb03c661_0    conda-forge
+frozenlist                1.7.0                    pypi_0    pypi
+fsspec                    2025.9.0           pyhd8ed1ab_0    conda-forge
+gdk-pixbuf                2.44.0               h2b0a6b4_0    conda-forge
+gdown                     5.2.0                    pypi_0    pypi
+gettext                   0.25.1               h3f43e3d_1    conda-forge
+gettext-tools             0.25.1               h3f43e3d_1    conda-forge
+giflib                    5.2.2                h5eee18b_0    defaults
+gmp                       6.3.0                h6a678d5_0    defaults
+gmpy2                     2.2.1           py310h5eee18b_0    defaults
+graphite2                 1.3.14               h295c915_1    defaults
+grpcio                    1.74.0                   pypi_0    pypi
+h5py                      3.14.0                   pypi_0    pypi
+harfbuzz                  11.4.5               h15599e2_0    conda-forge
+humanize                  4.13.0                   pypi_0    pypi
+icu                       75.1                 he02047a_0    conda-forge
+idna                      3.10                     pypi_0    pypi
+igraph                    0.11.9                   pypi_0    pypi
+importlib-resources       6.5.2                    pypi_0    pypi
+intel-gmmlib              22.8.2               hb700be7_0    conda-forge
+intel-media-driver        25.3.4               hecca717_0    conda-forge
+jax                       0.6.2                    pypi_0    pypi
+jaxlib                    0.6.2                    pypi_0    pypi
+jinja2                    3.1.6           py310h06a4308_0    defaults
+joblib                    1.5.2                    pypi_0    pypi
+kaldi                     5.5.1172         cpu_ha6a0dec_1    conda-forge
+kiwisolver                1.4.9                    pypi_0    pypi
+lame                      3.100                h7b6447c_0    defaults
+lcms2                     2.17                 h717163a_0    conda-forge
+ld_impl_linux-64          2.44                 h1423503_1    conda-forge
+legacy-api-wrap           1.4.1                    pypi_0    pypi
+leidenalg                 0.10.2                   pypi_0    pypi
+lerc                      4.0.0                h6a678d5_0    defaults
+level-zero                1.24.2               hb700be7_0    conda-forge
+libabseil                 20250512.1      cxx17_hba17884_0    conda-forge
+libasprintf               0.25.1               h3f43e3d_1    conda-forge
+libasprintf-devel         0.25.1               h3f43e3d_1    conda-forge
+libass                    0.17.4               h96ad9f0_0    conda-forge
+libavif16                 1.3.0                h6395336_2    conda-forge
+libblas                   3.9.0           35_h4a7cf45_openblas    conda-forge
+libcap                    2.76                 h0b2e76d_0    conda-forge
+libcblas                  3.9.0           35_h0358290_openblas    conda-forge
+libcublas                 11.11.3.6                     0    nvidia
+libcufft                  10.9.0.58                     0    nvidia
+libcufile                 1.15.1.6             hbc026e6_0    conda-forge
+libcurand                 10.4.0.35            h676940d_0    conda-forge
+libcusolver               11.4.1.48                     0    nvidia
+libcusparse               11.7.5.86                     0    nvidia
+libde265                  1.0.15               h00ab1b0_0    conda-forge
+libdeflate                1.24                 h86f0d12_0    conda-forge
+libdrm                    2.4.125              hb03c661_1    conda-forge
+libegl                    1.7.0                h5eee18b_2    defaults
+libexpat                  2.7.1                hecca717_0    conda-forge
+libffi                    3.4.6                h2dba641_1    conda-forge
+libflac                   1.4.3                h59595ed_0    conda-forge
+libfreetype               2.14.0               ha770c72_1    conda-forge
+libfreetype6              2.14.0               h73754d4_1    conda-forge
+libgcc                    15.1.0               h767d61c_5    conda-forge
+libgcc-ng                 15.1.0               h69a702a_5    conda-forge
+libgcrypt-lib             1.11.1               hb9d3cd8_0    conda-forge
+libgettextpo              0.25.1               h3f43e3d_1    conda-forge
+libgettextpo-devel        0.25.1               h3f43e3d_1    conda-forge
+libgfortran               15.1.0               h69a702a_5    conda-forge
+libgfortran5              15.1.0               hcea5267_5    conda-forge
+libgl                     1.7.0                h5eee18b_2    defaults
+libglib                   2.86.0               h1fed272_0    conda-forge
+libglvnd                  1.7.0                h5eee18b_2    defaults
+libglx                    1.7.0                h5eee18b_2    defaults
+libgomp                   15.1.0               h767d61c_5    conda-forge
+libgpg-error              1.55                 h3f2d84a_0    conda-forge
+libheif                   1.19.7          gpl_hc18d805_100    conda-forge
+libhwloc                  2.12.1          default_hf1bbc79_1000    defaults
+libiconv                  1.18                 h3b78370_2    conda-forge
+libjpeg-turbo             3.1.1                hb25bd0a_0    defaults
+liblapack                 3.9.0           35_h47877c9_openblas    conda-forge
+liblapacke                3.9.0           35_h6ae95b6_openblas    conda-forge
+liblzma                   5.8.1                hb9d3cd8_2    conda-forge
+liblzma-devel             5.8.1                hb9d3cd8_2    conda-forge
+libnl                     3.11.0               hb25bd0a_0    defaults
+libnpp                    11.8.0.86                     0    nvidia
+libnsl                    2.0.1                hb9d3cd8_1    conda-forge
+libnvjpeg                 11.9.0.86                     0    nvidia
+libogg                    1.3.5                h27cfd23_1    defaults
+libopenblas               0.3.30          pthreads_h94d23a6_2    conda-forge
+libopenvino               2025.2.0             hb617929_1    conda-forge
+libopenvino-auto-batch-plugin 2025.2.0             hed573e4_1    conda-forge
+libopenvino-auto-plugin   2025.2.0             hed573e4_1    conda-forge
+libopenvino-hetero-plugin 2025.2.0             hd41364c_1    conda-forge
+libopenvino-intel-cpu-plugin 2025.2.0             hb617929_1    conda-forge
+libopenvino-intel-gpu-plugin 2025.2.0             hb617929_1    conda-forge
+libopenvino-intel-npu-plugin 2025.2.0             hb617929_1    conda-forge
+libopenvino-ir-frontend   2025.2.0             hd41364c_1    conda-forge
+libopenvino-onnx-frontend 2025.2.0             h1862bb8_1    conda-forge
+libopenvino-paddle-frontend 2025.2.0             h1862bb8_1    conda-forge
+libopenvino-pytorch-frontend 2025.2.0             hecca717_1    conda-forge
+libopenvino-tensorflow-frontend 2025.2.0             h0767aad_1    conda-forge
+libopenvino-tensorflow-lite-frontend 2025.2.0             hecca717_1    conda-forge
+libopus                   1.5.2                hd0c01bc_0    conda-forge
+libpciaccess              0.18                 h5eee18b_0    defaults
+libpng                    1.6.50               h421ea60_1    conda-forge
+libprotobuf               6.31.1               h9ef548d_1    conda-forge
+librsvg                   2.58.4               he92a37e_3    conda-forge
+libsndfile                1.2.2                hc60ed4a_1    conda-forge
+libsqlite                 3.50.4               h0c1763c_0    conda-forge
+libstdcxx                 15.1.0               h8f9b012_5    conda-forge
+libstdcxx-ng              15.1.0               h4852527_5    conda-forge
+libsystemd0               257.9                h996ca69_0    conda-forge
+libtiff                   4.7.0                h8261f1e_6    conda-forge
+libtorch                  2.7.1           cpu_generic_h1322af4_3    conda-forge
+libudev1                  257.9                h085a93f_0    conda-forge
+libunwind                 1.8.3                h65a8314_0    conda-forge
+liburing                  2.12                 hb700be7_0    conda-forge
+libusb                    1.0.29               h73b1eb8_0    conda-forge
+libuuid                   2.41.1               he9a06e4_0    conda-forge
+libuv                     1.51.0               hb03c661_1    conda-forge
+libva                     2.22.0               h4f16b4b_2    conda-forge
+libvorbis                 1.3.7                h7b6447c_0    defaults
+libvpl                    2.15.0               h54a6638_1    conda-forge
+libvpx                    1.14.1               hac33072_0    conda-forge
+libwebp-base              1.6.0                hd42ef1d_0    conda-forge
+libxcb                    1.17.0               h9b100fa_0    defaults
+libxcrypt                 4.4.36               hd590300_1    conda-forge
+libxkbcommon              1.11.0               he8b52b9_0    conda-forge
+libxml2                   2.13.8               h04c0eec_1    conda-forge
+libzlib                   1.3.1                hb25bd0a_0    defaults
+lightning                 2.5.5                    pypi_0    pypi
+lightning-utilities       0.15.2                   pypi_0    pypi
+llvm-openmp               21.1.0               h4922eb0_0    conda-forge
+llvmlite                  0.44.0                   pypi_0    pypi
+lz4-c                     1.10.0               h5888daf_1    conda-forge
+markdown                  3.9                      pypi_0    pypi
+markdown-it-py            4.0.0                    pypi_0    pypi
+markupsafe                3.0.2           py310h5eee18b_0    defaults
+matplotlib                3.10.6                   pypi_0    pypi
+mdurl                     0.1.2                    pypi_0    pypi
+ml-collections            1.1.0                    pypi_0    pypi
+ml-dtypes                 0.5.3                    pypi_0    pypi
+mpc                       1.3.1                h5eee18b_0    defaults
+mpfr                      4.2.1                h5eee18b_0    defaults
+mpg123                    1.32.9               hc50e24c_0    conda-forge
+mpmath                    1.3.0           py310h06a4308_0    defaults
+msgpack                   1.1.1                    pypi_0    pypi
+mudata                    0.3.2                    pypi_0    pypi
+multidict                 6.6.4                    pypi_0    pypi
+multipledispatch          1.0.0                    pypi_0    pypi
+muon                      0.1.7                    pypi_0    pypi
+natsort                   8.4.0                    pypi_0    pypi
+ncurses                   6.5                  h7934f7d_0    defaults
+nest-asyncio              1.6.0                    pypi_0    pypi
+networkx                  3.4.2           py310h06a4308_0    defaults
+newick                    1.0.0                    pypi_0    pypi
+nomkl                     1.0                  h5ca1d4c_0    conda-forge
+numba                     0.61.2                   pypi_0    pypi
+numexpr                   2.12.1          py310h34a7263_100    conda-forge
+numpy                     2.2.6           py310hefbff90_0    conda-forge
+numpyro                   0.19.0                   pypi_0    pypi
+nvidia-cublas-cu12        12.8.4.1                 pypi_0    pypi
+nvidia-cuda-cupti-cu12    12.8.90                  pypi_0    pypi
+nvidia-cuda-nvrtc-cu12    12.8.93                  pypi_0    pypi
+nvidia-cuda-runtime-cu12  12.8.90                  pypi_0    pypi
+nvidia-cudnn-cu12         9.10.2.21                pypi_0    pypi
+nvidia-cufft-cu12         11.3.3.83                pypi_0    pypi
+nvidia-cufile-cu12        1.13.1.3                 pypi_0    pypi
+nvidia-curand-cu12        10.3.9.90                pypi_0    pypi
+nvidia-cusolver-cu12      11.7.3.90                pypi_0    pypi
+nvidia-cusparse-cu12      12.5.8.93                pypi_0    pypi
+nvidia-cusparselt-cu12    0.7.1                    pypi_0    pypi
+nvidia-nccl-cu12          2.27.3                   pypi_0    pypi
+nvidia-nvjitlink-cu12     12.8.93                  pypi_0    pypi
+nvidia-nvtx-cu12          12.8.90                  pypi_0    pypi
+ocl-icd                   2.3.3                hb9d3cd8_0    conda-forge
+opencl-headers            2025.06.13           h5888daf_0    conda-forge
+openfst                   1.8.4                h84d6215_1    conda-forge
+openh264                  2.6.0                he621ea3_0    defaults
+openjpeg                  2.5.3                h55fea9a_1    conda-forge
+openssl                   3.5.2                h26f9b46_0    conda-forge
+opt-einsum                3.4.0                    pypi_0    pypi
+optax                     0.2.5                    pypi_0    pypi
+optree                    0.17.0          py310h03d9f68_1    conda-forge
+orbax-checkpoint          0.11.25                  pypi_0    pypi
+packaging                 25.0                     pypi_0    pypi
+pandas                    1.5.3                    pypi_0    pypi
+pango                     1.56.4               hadf4263_0    conda-forge
+patsy                     1.0.1                    pypi_0    pypi
+pcre2                     10.46                h1321c63_0    conda-forge
+pillow                    11.3.0          py310hb7da693_1    conda-forge
+pip                       25.2               pyhc872135_0    defaults
+pixman                    0.46.4               h7934f7d_0    defaults
+propcache                 0.3.2                    pypi_0    pypi
+protobuf                  6.32.1                   pypi_0    pypi
+pthread-stubs             0.4               hb9d3cd8_1002    conda-forge
+pugixml                   1.15                 h3f63f65_0    conda-forge
+pulseaudio-client         17.0                 h9a8bead_2    conda-forge
+pybind11                  3.0.1              pyh7a1b43c_0    conda-forge
+pybind11-global           3.0.1              pyhc7ab6ef_0    conda-forge
+pygments                  2.19.2                   pypi_0    pypi
+pynndescent               0.5.13                   pypi_0    pypi
+pyparsing                 3.2.4                    pypi_0    pypi
+pyro-api                  0.1.2                    pypi_0    pypi
+pyro-ppl                  1.9.1                    pypi_0    pypi
+pysocks                   1.7.1                    pypi_0    pypi
+python                    3.10.18         hd6af730_0_cpython    conda-forge
+python-dateutil           2.9.0post0      py310h06a4308_2    defaults
+python-tzdata             2025.2             pyhd3eb1b0_0    defaults
+python_abi                3.10                    2_cp310    conda-forge
+pytorch                   2.7.1           cpu_generic_py310_hceade7c_3    conda-forge
+pytorch-cuda              11.8                 h7e8668a_6    pytorch
+pytorch-lightning         2.5.5                    pypi_0    pypi
+pytorch-mutex             1.0                         cpu    pytorch
+pytz                      2025.2          py310h06a4308_0    defaults
+pyyaml                    6.0.2                    pypi_0    pypi
+rav1e                     0.7.1                h8fae777_3    conda-forge
+rdma-core                 59.0                 hecca717_0    conda-forge
+readline                  8.3                  hc2a1206_0    defaults
+requests                  2.32.5                   pypi_0    pypi
+rich                      14.1.0                   pypi_0    pypi
+scanpy                    1.11.4                   pypi_0    pypi
+scarches                  0.6.1                    pypi_0    pypi
+schpl                     1.0.5                    pypi_0    pypi
+scikit-learn              1.7.2                    pypi_0    pypi
+scipy                     1.15.3                   pypi_0    pypi
+scvi-tools                1.3.3                    pypi_0    pypi
+sdl2                      2.32.54              h3f2d84a_0    conda-forge
+sdl3                      3.2.22               h68140b3_0    conda-forge
+seaborn                   0.13.2                   pypi_0    pypi
+session-info2             0.2.2                    pypi_0    pypi
+setuptools                80.9.0             pyhff2d567_0    conda-forge
+simplejson                3.20.1                   pypi_0    pypi
+six                       1.17.0          py310h06a4308_0    defaults
+sleef                     3.9.0                ha0421bc_0    conda-forge
+snappy                    1.2.2                h03e3b7b_0    conda-forge
+soupsieve                 2.8                      pypi_0    pypi
+sparse                    0.17.0                   pypi_0    pypi
+sqlite                    3.50.4               hbc0de68_0    conda-forge
+statsmodels               0.14.5                   pypi_0    pypi
+svt-av1                   3.1.2                hecca717_0    conda-forge
+sympy                     1.14.0          py310h06a4308_0    defaults
+tbb                       2022.2.0             hb60516a_1    conda-forge
+tensorboard               2.20.0                   pypi_0    pypi
+tensorboard-data-server   0.7.2                    pypi_0    pypi
+tensorstore               0.1.76                   pypi_0    pypi
+texttable                 1.7.0                    pypi_0    pypi
+threadpoolctl             3.6.0                    pypi_0    pypi
+tk                        8.6.15               h54e0aa7_0    defaults
+toolz                     1.0.0                    pypi_0    pypi
+torch                     2.8.0                    pypi_0    pypi
+torchaudio                2.8.0           cpu_py310h8794925_0    conda-forge
+torchcodec                0.7.0           cpu_py310_h0b2125c_0    conda-forge
+torchmetrics              1.8.2                    pypi_0    pypi
+torchvision               0.23.0                   pypi_0    pypi
+torchvision-extra-decoders 0.0.2           py310h18ecd09_3    conda-forge
+tqdm                      4.67.1                   pypi_0    pypi
+treescope                 0.1.10                   pypi_0    pypi
+triton                    3.4.0                    pypi_0    pypi
+typing-extensions         4.15.0          py310h06a4308_0    defaults
+typing_extensions         4.15.0          py310h06a4308_0    defaults
+tzdata                    2025b                h04d1e81_0    defaults
+umap-learn                0.5.9.post2              pypi_0    pypi
+urllib3                   2.5.0                    pypi_0    pypi
+wayland                   1.24.0               hdac8c69_0    defaults
+wayland-protocols         1.45                 hd8ed1ab_0    conda-forge
+werkzeug                  3.1.3                    pypi_0    pypi
+wheel                     0.45.1          py310h06a4308_0    defaults
+x264                      1!164.3095           h166bdaf_2    conda-forge
+x265                      3.5                  h924138e_3    conda-forge
+xarray                    2024.3.0                 pypi_0    pypi
+xkeyboard-config          2.45                 hb9d3cd8_0    conda-forge
+xorg-libx11               1.8.12               h9b100fa_1    defaults
+xorg-libxau               1.0.12               h9b100fa_0    defaults
+xorg-libxcursor           1.2.3                h9b100fa_0    defaults
+xorg-libxdmcp             1.1.5                h9b100fa_0    defaults
+xorg-libxext              1.3.6                h9b100fa_0    defaults
+xorg-libxfixes            6.0.1                h9b100fa_0    defaults
+xorg-libxrender           0.9.12               h9b100fa_0    defaults
+xorg-libxscrnsaver        1.2.4                h9b100fa_0    defaults
+xorg-xorgproto            2024.1               h5eee18b_1    defaults
+xz                        5.8.1                hbcc6ac9_2    conda-forge
+xz-gpl-tools              5.8.1                hbcc6ac9_2    conda-forge
+xz-tools                  5.8.1                hb9d3cd8_2    conda-forge
+yarl                      1.20.1                   pypi_0    pypi
+zipp                      3.23.0                   pypi_0    pypi
+zlib                      1.3.1                hb25bd0a_0    defaults
+zstd                      1.5.7                hb8e6e7a_2    conda-forge
+
+===== PIP PACKAGES (pip freeze) =====
+absl-py==2.3.1
+aiobotocore==2.26.0
+aiofiles==25.1.0
+aiohappyeyeballs==2.6.1
+aiohttp==3.13.3
+aioitertools==0.13.0
+aiosignal==1.4.0
+anndata==0.11.4
+array-api-compat==1.12.0
+asciitree==0.3.3
+async-timeout==5.0.1
+attrs==25.4.0
+beautifulsoup4==4.13.5
+blitzgsea==1.3.54
+botocore==1.41.5
+Bottleneck @ file:///home/conda/feedstock_root/build_artifacts/bottleneck_1757415015609/work
+certifi==2025.8.3
+charset-normalizer==3.4.3
+chex==0.1.90
+click==8.3.1
+cloudpickle==3.1.2
+colorcet==3.1.0
+contourpy==1.3.2
+cycler==0.12.1
+Cython==0.29.37
+dask==2024.11.2
+dask-expr==1.1.19
+dask-image==2025.11.0
+datashader==0.18.2
+docrep==0.3.2
+etils==1.13.0
+exceptiongroup==1.3.1
+fasteners==0.20
+filelock==3.20.3
+flax==0.10.7
+fonttools==4.60.1
+frozenlist==1.8.0
+fsspec==2025.12.0
+gdown==5.2.0
+geopandas==1.1.2
+gmpy2 @ file:///croot/gmpy2_1738085463648/work
+grpcio==1.76.0
+h5py==3.15.1
+humanize==4.15.0
+idna==3.10
+igraph==0.11.9
+ImageIO==2.37.2
+importlib_metadata==8.7.1
+importlib_resources==6.5.2
+inflect==7.5.0
+jax==0.6.2
+jaxlib==0.6.2
+Jinja2==3.1.6
+jmespath==1.0.1
+joblib==1.5.2
+kiwisolver==1.4.9
+lazy_loader==0.4
+legacy-api-wrap==1.5
+leidenalg==0.10.2
+lightning==2.5.5
+lightning-utilities==0.15.2
+llvmlite==0.45.1
+locket==1.0.0
+Markdown==3.10
+markdown-it-py==4.0.0
+MarkupSafe==3.0.3
+matplotlib==3.10.7
+matplotlib-scalebar==0.9.0
+mdurl==0.1.2
+ml_collections==1.1.0
+ml_dtypes==0.5.4
+more-itertools==10.8.0
+mpmath==1.3.0
+msgpack==1.1.2
+mudata==0.3.2
+multidict==6.7.0
+multipledispatch==1.0.0
+multiscale_spatial_image==2.0.3
+muon==0.1.7
+natsort==8.4.0
+nest-asyncio==1.6.0
+networkx==3.4.2
+newick==1.0.0
+numba==0.62.1
+numcodecs==0.13.1
+numexpr @ file:///home/conda/feedstock_root/build_artifacts/numexpr_1757678103359/work
+numpy==2.2.6
+numpyro==0.19.0
+nvidia-cublas-cu12==12.8.4.1
+nvidia-cuda-cupti-cu12==12.8.90
+nvidia-cuda-nvrtc-cu12==12.8.93
+nvidia-cuda-runtime-cu12==12.8.90
+nvidia-cudnn-cu12==9.10.2.21
+nvidia-cufft-cu12==11.3.3.83
+nvidia-cufile-cu12==1.13.1.3
+nvidia-curand-cu12==10.3.9.90
+nvidia-cusolver-cu12==11.7.3.90
+nvidia-cusparse-cu12==12.5.8.93
+nvidia-cusparselt-cu12==0.7.1
+nvidia-nccl-cu12==2.27.3
+nvidia-nvjitlink-cu12==12.8.93
+nvidia-nvtx-cu12==12.8.90
+ome-zarr==0.11.1
+omnipath==1.0.12
+opencv-python==4.12.0.88
+opt_einsum==3.4.0
+optax==0.2.5
+optree @ file:///home/conda/feedstock_root/build_artifacts/optree_1756812119096/work
+orbax-checkpoint==0.11.25
+packaging==25.0
+pandas==2.3.3
+param==2.3.1
+partd==1.4.2
+patsy==1.0.2
+pillow==12.0.0
+PIMS==0.7
+pooch==1.8.2
+propcache==0.4.1
+protobuf==6.33.3
+psutil==7.2.1
+pyarrow==22.0.0
+pybind11 @ file:///D:/bld/bld/rattler-build_pybind11_1755953378/work
+pybind11-global @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pybind11-global_1755953338/work
+pyct==0.6.0
+Pygments==2.19.2
+pynndescent==0.5.13
+pyogrio==0.12.1
+pyparsing==3.2.5
+pyproj==3.7.1
+pyro-api==0.1.2
+pyro-ppl==1.9.1
+PySocks==1.7.1
+python-dateutil==2.9.0.post0
+pytorch-lightning==2.5.5
+pytz==2025.2
+PyYAML==6.0.3
+requests==2.32.5
+rich==14.2.0
+s3fs==2025.12.0
+scanpy==1.11.5
+scArches==0.6.1
+scHPL==1.0.5
+scikit-image==0.25.2
+scikit-learn==1.7.2
+scipy==1.15.3
+scvi-tools==1.3.3
+seaborn==0.13.2
+session-info2==0.2.3
+shapely==2.1.2
+simplejson==3.20.2
+six==1.17.0
+slicerator==1.1.0
+soupsieve==2.8
+sparse==0.17.0
+spatial_image==1.2.3
+spatialdata==0.5.0
+squidpy==1.6.5
+statsmodels==0.14.5
+stdlib-list==0.12.0
+sympy==1.14.0
+tensorboard==2.20.0
+tensorboard-data-server==0.7.2
+tensorstore==0.1.76
+texttable==1.7.0
+threadpoolctl==3.6.0
+tifffile==2025.5.10
+toolz==1.1.0
+torch @ file:///home/conda/feedstock_root/build_artifacts/libtorch_1752524769961/work
+torchaudio @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_torchaudio_1755749106/work
+torchcodec @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_torchcodec_1757489413/work
+torchmetrics==1.8.2
+torchvision @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_torchvision_1753496644/work
+torchvision-extra-decoders @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_torchvision-extra-decoders_1748570840/work
+tqdm==4.67.1
+treescope==0.1.10
+triton==3.4.0
+typeguard==4.4.4
+typing_extensions==4.15.0
+tzdata==2025.2
+umap-learn==0.5.9.post2
+urllib3==2.5.0
+validators==0.35.0
+Werkzeug==3.1.5
+wrapt==1.17.3
+xarray==2025.6.1
+xarray-dataclass==3.0.0
+xarray-schema==0.0.3
+xarray-spatial==0.5.2
+yarl==1.22.0
+zarr==2.18.3
+zipp==3.23.0
+

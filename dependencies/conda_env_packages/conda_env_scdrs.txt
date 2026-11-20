@@ -1,0 +1,94 @@
+annotated-types==0.8.0
+archspec @ file:///home/conda/feedstock_root/build_artifacts/archspec_1737352602016/work
+array-api-compat==1.15.0
+boltons @ file:///home/conda/feedstock_root/build_artifacts/boltons_1733827268945/work
+Brotli @ file:///home/conda/feedstock_root/build_artifacts/brotli-split_1725267488082/work
+certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1734380492396/work/certifi
+cffi @ file:///home/conda/feedstock_root/build_artifacts/cffi_1725560558132/work
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1735929714516/work
+cloudpickle==3.1.2
+colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1733218098505/work
+conda @ file:///home/conda/feedstock_root/build_artifacts/conda_1736947900115/work
+conda-libmamba-solver @ file:///home/conda/feedstock_root/build_artifacts/conda-libmamba-solver_1727359833193/work/src
+conda-package-handling @ file:///home/conda/feedstock_root/build_artifacts/conda-package-handling_1736345463896/work
+conda_package_streaming @ file:///home/conda/feedstock_root/build_artifacts/conda-package-streaming_1729004031731/work
+contourpy==1.4.0
+cycler==0.12.1
+distro @ file:///home/conda/feedstock_root/build_artifacts/distro_1734729835256/work
+donfig==0.8.1.post1
+fast-array-utils==1.5.1
+fire==0.7.1
+fonttools==4.66.1
+formulaic==1.2.2
+frozendict @ file:///home/conda/feedstock_root/build_artifacts/frozendict_1728841327252/work
+google-crc32c==1.9.0
+h2 @ file:///home/conda/feedstock_root/build_artifacts/h2_1733298745555/work
+h5py==3.16.0
+hpack @ file:///home/conda/feedstock_root/build_artifacts/hpack_1733299205993/work
+hyperframe @ file:///home/conda/feedstock_root/build_artifacts/hyperframe_1733298771451/work
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1733211830134/work
+iniconfig==2.3.0
+interface_meta==2.0.1
+joblib==1.6.0
+jsonpatch @ file:///home/conda/feedstock_root/build_artifacts/jsonpatch_1733814567314/work
+jsonpointer @ file:///home/conda/feedstock_root/build_artifacts/jsonpointer_1725302935093/work
+kiwisolver==1.5.1
+legacy-api-wrap==1.5
+libmambapy @ file:///home/conda/feedstock_root/build_artifacts/mamba-split_1735835715095/work/libmambapy
+llvmlite==0.50.0
+mamba @ file:///home/conda/feedstock_root/build_artifacts/mamba-split_1735835715095/work/mamba
+matplotlib==3.11.2
+menuinst @ file:///home/conda/feedstock_root/build_artifacts/menuinst_1731146972698/work
+msgspec==0.22.0
+narwhals==2.26.0
+natsort==8.4.0
+networkx==3.7
+numba==0.68.0
+numcodecs==0.17.0
+numpy==2.5.3
+packaging==26.3
+pandas==3.0.6
+patsy==1.0.3
+pillow==12.3.0
+platformdirs @ file:///home/conda/feedstock_root/build_artifacts/platformdirs_1733232627818/work
+pluggy @ file:///home/conda/feedstock_root/build_artifacts/pluggy_1733222765875/work
+pycosat @ file:///home/conda/feedstock_root/build_artifacts/pycosat_1732588402431/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pycparser_1733195786/work
+pydantic==2.13.5
+pydantic-settings==2.15.0
+pydantic_core==2.46.5
+Pygments==2.21.0
+pynndescent==0.6.0
+pyparsing==3.3.3
+PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1733217236728/work
+pytest==9.1.1
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.4
+PyYAML==6.0.3
+requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1733217035951/work
+ruamel.yaml @ file:///home/conda/feedstock_root/build_artifacts/ruamel.yaml_1736248036158/work
+ruamel.yaml.clib @ file:///home/conda/feedstock_root/build_artifacts/ruamel.yaml.clib_1728724466132/work
+scanpy==1.12.4
+scdrs==1.0.2
+scikit-learn==1.9.1
+scikit-misc==0.5.2
+scipy==1.18.1
+scverse-misc==0.1.6
+seaborn==0.13.2
+session-info2==0.4.2
+setuptools==75.8.0
+six==1.17.0
+statsmodels==0.15.0
+termcolor==3.3.0
+threadpoolctl==3.7.0
+tqdm @ file:///home/conda/feedstock_root/build_artifacts/tqdm_1735661334605/work
+truststore @ file:///home/conda/feedstock_root/build_artifacts/truststore_1729762363021/work
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+umap-learn==0.5.12
+urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1734859416348/work
+wheel==0.45.1
+wrapt==2.5.0
+zarr==3.4.0
+zstandard==0.23.0
+

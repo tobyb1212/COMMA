@@ -1,0 +1,72 @@
+# Name                    Version                   Build  Channel
+_libgcc_mutex             0.1                        main    defaults
+_openmp_mutex             5.1                       1_gnu    defaults
+bedtools                  2.31.1               hf5e1c6e_2    bioconda
+bitarray                  0.8.3            py27h14c3975_0    defaults
+blas                      2.128                  openblas    conda-forge
+blas-devel                3.9.0           28_h1ea3ea9_openblas    conda-forge
+bzip2                     1.0.8                h5eee18b_6    defaults
+c-ares                    1.34.5               hb9d3cd8_0    conda-forge
+ca-certificates           2025.4.26            hbd8a1cb_0    conda-forge
+certifi                   2020.6.20          pyhd3eb1b0_3    defaults
+curl                      8.8.0                he654da7_1    conda-forge
+krb5                      1.21.3               h143b758_0    defaults
+libblas                   3.9.0           28_h59b9bed_openblas    conda-forge
+libcblas                  3.9.0           28_he106b2a_openblas    conda-forge
+libcurl                   8.8.0                hca28451_1    conda-forge
+libdeflate                1.23                 h86f0d12_0    conda-forge
+libedit                   3.1.20250104    pl5321h7949ede_0    conda-forge
+libev                     4.33                 h7f8727e_1    defaults
+libffi                    3.4.6                h2dba641_1    conda-forge
+libgcc                    14.2.0               h767d61c_2    conda-forge
+libgcc-ng                 14.2.0               h69a702a_2    conda-forge
+libgfortran-ng            7.5.0               ha8ba4b0_17    defaults
+libgfortran4              7.5.0               ha8ba4b0_17    defaults
+libgfortran5              14.2.0               hf1ad2bd_2    conda-forge
+libgomp                   14.2.0               h767d61c_2    conda-forge
+liblapack                 3.9.0           28_h7ac8fdf_openblas    conda-forge
+liblapacke                3.9.0           28_he2f377e_openblas    conda-forge
+libnghttp2                1.58.0               h47da74e_1    conda-forge
+libopenblas               0.3.28          pthreads_h94d23a6_0    conda-forge
+libsqlite                 3.46.0               hde9e2c9_0    conda-forge
+libssh2                   1.11.1               h251f7ec_0    defaults
+libstdcxx                 14.2.0               h8f9b012_2    conda-forge
+libstdcxx-ng              14.2.0               h4852527_2    conda-forge
+libzlib                   1.2.13               h4ab18f5_6    conda-forge
+ncurses                   6.5                  h2d0b736_3    conda-forge
+nose                      1.3.7                    py27_2    defaults
+numpy                     1.16.0                   pypi_0    pypi
+openblas                  0.3.28          pthreads_h6ec200e_0    conda-forge
+openssl                   3.5.0                h7b32b05_0    conda-forge
+pandas                    0.20.0                   pypi_0    pypi
+pip                       20.3.4                   pypi_0    pypi
+pybedtools                0.7.10           py27ha92aebf_3    bioconda
+pysam                     0.15.4           py27hbcae180_0    bioconda
+python                    2.7.18               h42bf7aa_3    defaults
+python-dateutil           2.8.2              pyhd3eb1b0_0    defaults
+python_abi                2.7                    1_cp27mu    conda-forge
+pytz                      2021.3             pyhd3eb1b0_0    defaults
+readline                  8.2                  h5eee18b_0    defaults
+scipy                     0.18.0                   pypi_0    pypi
+setuptools                44.0.0                   py27_0    defaults
+six                       1.16.0             pyhd3eb1b0_1    defaults
+sqlite                    3.46.0               h6d4b2fc_0    conda-forge
+tk                        8.6.14               h39e8969_0    defaults
+wheel                     0.37.1             pyhd3eb1b0_0    defaults
+xz                        5.2.10               h5eee18b_1    defaults
+zlib                      1.2.13               h4ab18f5_6    conda-forge
+zstd                      1.5.6                ha6fb4c9_0    conda-forge
+
+===== PIP PACKAGES (pip freeze) =====
+bitarray==0.8.3
+certifi==2020.6.20
+nose==1.3.7
+numpy==1.16.0
+pandas==0.20.0
+pybedtools==0.7.10
+pysam==0.15.4
+python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
+pytz==2021.3
+scipy==0.18.0
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+

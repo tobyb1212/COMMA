@@ -1,0 +1,23 @@
+Anaconda3
+BEDTools
+Bowtie2
+deepTools
+FastQC
+GSL
+HTSlib
+Miniforge3
+Python
+R
+R-bundle-Bioconductor
+SAMtools
+STAR
+liftover
+Cell Ranger
+Cell Ranger ARC
+Cell Ranger ATAC
+HiCUP
+HOMER
+PLINK
+SRA Toolkit
+BCFtools
+MAGMA
